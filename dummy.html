@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Section</title>
+
+</head>
+<body>
+  <!-- Services Section -->
+  <section class="services-section">
+    <div class="stats-container">
+      <!-- Centers -->
+      <div class="stat">
+        <h1 id="centers">0</h1>
+        <p>Centers</p>
+      </div>
+
+      <!-- States -->
+      <div class="stat">
+        <h1 id="states">0</h1>
+        <p>States</p>
+      </div>
+
+      <!-- Teachers Trained -->
+      <div class="stat">
+        <h1 id="teachers-trained">0</h1>
+        <p>Teacher's Trained</p>
+      </div>
+
+      <!-- Children Nurtured -->
+      <div class="stat">
+        <h1 id="children-nurtured">0</h1>
+        <p>Children Nurtured</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Counting Script -->
+  <script>
+    function animateCounter(id, target, duration, showPlus = true) {
+      const element = document.getElementById(id);
+      const increment = target / (duration / 100); // Adjust increment based on duration
+      let current = 0;
+
+      const counter = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(counter);
+        }
+        element.textContent = Math.ceil(current) + (showPlus && current >= target ? "+" : ""); // Add "+" only if needed
+      }, 10); // Adjust interval speed
+    }
+
+    // Trigger animation when stats enter viewport
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const element = entry.target;
+          const id = element.getAttribute('id');
+          if (id === 'centers') animateCounter(id, 100, 10000);
+          if (id === 'states') animateCounter(id, 10, 10000, false);
+          if (id === 'teachers-trained') animateCounter(id, 5000, 10000);
+          if (id === 'children-nurtured') animateCounter(id, 10000, 10000);
+
+          observer.unobserve(entry.target); // Stop observing once animated
+        }
+      });
+    }, {
+      threshold: 0.5 // Trigger when 50% of the element is visible
+    });
+
+    // Observe each stat box
+    document.querySelectorAll('.stat h1').forEach(stat => observer.observe(stat));
+  </script>
+</body>
+</html>
